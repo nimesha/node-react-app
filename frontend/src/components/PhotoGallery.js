@@ -128,7 +128,7 @@ const PhotosGallery = () => {
                     />
                 </div>
             )) : null}
-            <button onClick={() => onSelected()}>Order selected Photo</button>
+            <button onClick={() => onSelected()}>Next : My Photo</button>
         </div>
     );
 
