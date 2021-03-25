@@ -1,12 +1,17 @@
-import cors from "cors"
-import express from "express"
+import App from "./app.js";
 
-const port = 8888
+import { PORT } from "./config/index.js";
 
-const app = express()
-app.use(cors())
-app.options("*", cors())
+App.listen(PORT, () => {
+  console.log(` App is running on PORT ${PORT} `);
+});
 
-app.get("/", (req, res) => res.send({ status: true }))
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+App.use((error, req, res, next) => {
+  if (error instanceof Error) {
+    res.send({
+      errorType: "Internal server Error",
+      errorMessage: error.message,
+      errorCode: 500,
+    });
+  }
+});
