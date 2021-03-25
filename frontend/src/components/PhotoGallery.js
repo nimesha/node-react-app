@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-
-
-
+import { Container, Button } from 'react-bootstrap';
 
 const PhotosGallery = () => {
 
@@ -76,34 +74,79 @@ const PhotosGallery = () => {
                 "timestamp": 1578391381,
                 'status': true
             },
+            {
+                "id": 20490000134,
+                "message": "",
+                "picture": "https://www.filepicker.io/api/file/c5XwmVekSQO2CIabnudN",
+                "pictureSmall": "",
+                "pictureMedium": "",
+                "pictureStored": "",
+                "timestamp": 1578391381,
+                'status': false
+            },
+            {
+                "id": 2049000029,
+                "message": "",
+                "picture": "https://www.filepicker.io/api/file/oTUic0PTS4KiBJFbahbl",
+                "pictureSmall": "",
+                "pictureMedium": "",
+                "pictureStored": "",
+                "timestamp": 1578391381,
+                'status': false
+            },
+            {
+                "id": 2049000031,
+                "message": "",
+                "picture": "https://www.filepicker.io/api/file/OqPljPIRimcdPI5DWxlv",
+                "pictureSmall": "",
+                "pictureMedium": "",
+                "pictureStored": "",
+                "timestamp": 1578391381,
+                'status': false
+            },
+            {
+                "id": 2049000042,
+                "message": "",
+                "picture": "https://www.filepicker.io/api/file/OkleqwBQLCvFBAbByUxY",
+                "pictureSmall": "",
+                "pictureMedium": "",
+                "pictureStored": "",
+                "timestamp": 1578391381,
+                'status': false
+            },
+            {
+                "id": 2049000054,
+                "message": "",
+                "picture": "https://www.filepicker.io/api/file/AbFrknBZRLGmJuUTWYr2",
+                "pictureSmall": "",
+                "pictureMedium": "",
+                "pictureStored": "",
+                "timestamp": 1578391381,
+                'status': true
+            },
 
         ]
     });
 
-
     const [isChecked, setIsChecked] = useState();
     const [loading, setLoading] = useState(true);
-
-
 
     const handleSingleCheck = e => {
         setIsChecked({ ...isChecked, [e.target.name]: e.target.checked });
     };
-
 
     /**
      * Get selected photos obj and assign to context
      */
 
     const onSelected = () => {
-  
+
         const itemList = Object.keys(isChecked).filter(key => isChecked[key] === true)
         const selectedObject = galleryData.entries.filter(item => itemList.includes(item.id.toString()));
-           
-        console.log(selectedObject);
-    
-    }
 
+        console.log(selectedObject);
+
+    }
 
     useEffect(() => {
         const initialIsChecked = galleryData.entries.reduce((item, d) => {
@@ -116,20 +159,39 @@ const PhotosGallery = () => {
 
 
     return (
-        <div>
-            {!loading ? galleryData.entries.map((item, index) => (
-                <div key={item.id}>
-                    <img src={item.picture} loading="lazy" alt={item.id} width="150" />
-                    <input
-                        type="checkbox"
-                        name={item.id}
-                        checked={isChecked[item.id]}
-                        onChange={handleSingleCheck}
-                    />
+
+        <>
+
+            <div className="fixed-top bg-dark mb-5 ">
+                <Container>
+                    <div className="d-flex mt-2 flex-row justify-content-between align-items-center py-2 px-2 mb-2">
+                        <div><h1 className="text-white">Choose Photos</h1></div>
+                        <Button onClick={() => onSelected()} className="btn btn-success btn-lg"><strong>Next : My Photo</strong></Button>
+                    </div>
+                </Container>
+            </div>
+
+            <Container className="mt-100">
+
+
+                <div className="d-flex flex-wrap main-container mt-5 ">
+                    {!loading ? galleryData.entries.map((item, index) => (
+                        <div key={item.id} className="m-2 img-wrap" style={{ flexGrow: 1, height: "40vh" }}>
+                            <img src={item.picture} loading="lazy" alt={item.id} className="single-image" width="auto" height="auto" style={{ maxHeight: "100%", minWidth: "100%", objectFit: "cover" }} />
+                            <input
+                                id="chk"
+                                className="image-checkbox"
+                                type="checkbox"
+                                name={item.id}
+                                checked={isChecked[item.id]}
+                                onChange={handleSingleCheck}
+                            />
+                        </div>
+                    )) : null}
                 </div>
-            )) : null}
-            <button onClick={() => onSelected()}>Next : My Photo</button>
-        </div>
+            </Container>
+
+        </>
     );
 
 

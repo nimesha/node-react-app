@@ -36,3 +36,62 @@
     transform: rotate(360deg);
   }
 }
+
+
+.bg-photo{
+  background-color: #333333;
+}
+.mt-100 {
+  margin-top: 100px;
+}
+
+
+.img-wrap {
+  min-height: 40vh !important;
+  width: auto !important;
+  flex-grow: 1 !important;
+}
+
+.single-img {
+  max-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+}
+
+.image-checkbox {
+  float: right !important;
+  position: relative !important;
+  z-index: 99;
+  margin-top: -50px !important;
+  margin-right:37px;
+}
+
+
+input[type="checkbox"]:before {
+  background: #fff;
+  content: "\00a0";
+  border: 1px solid black;
+  display: inline-block;
+  font: 2rem sans-serif;
+  height: 50px;
+  width: 50px;
+  /* margin: 0 .25em 0 0; */
+  padding: 0;
+  /* vertical-align: center; */
+}
+
+input[type="checkbox"]:checked:before {
+  background: #fff;
+  color: #28A745;
+  content: "\2713";
+  font-weight: bolder;
+  text-align: center;
+}
+
+input[type="checkbox"]:checked:after {
+  font-weight: bold;
+}
+
+input[type="checkbox"]:focus::before {
+  outline: #28A745 auto 10px;
+}

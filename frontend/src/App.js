@@ -11,20 +11,24 @@ import Dashboard from './components/Dashboard';
 import PhotosGallery from './components/PhotoGallery';
 import UserGallery from './components/UserGallery';
 
-
-
+import UserContextProvider from './contexts/UserContext';
+import PhotoContextProvider from './contexts/PhotoContext';
 
 
 
 function App() {
   return (
-    <div className="App">
+    <div className="App ">
 
       <Router>
         <Switch>
-          <Route path="/photos-gallery" component={PhotosGallery}></Route>
-          <Route path="/user-gallery" component={UserGallery}></Route>
-          <Route path="/" component={Dashboard}></Route>
+          <UserContextProvider>
+            <PhotoContextProvider>
+              <Route path="/photos-gallery" component={PhotosGallery}></Route>
+              <Route path="/user-gallery" component={UserGallery}></Route>
+              <Route path="/" component={Dashboard} exact></Route>
+            </PhotoContextProvider>
+          </UserContextProvider>
         </Switch>
       </Router>
 
