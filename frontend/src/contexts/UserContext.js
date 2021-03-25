@@ -6,7 +6,7 @@ const UserContextProvider = (props) => {
     const [user, setUser] = useState([]);
 
     const addUser = (id) => {
-        setUser({ user_id: id });
+        setUser({ 'user_id': id });
     };
     const removeUser = () => {
         setUser({});
