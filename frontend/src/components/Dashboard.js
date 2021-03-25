@@ -1,12 +1,22 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
+import { useHistory } from "react-router-dom";
 import { Button } from 'react-bootstrap';
+import { UserContext } from '../contexts/UserContext';
+const short = require('short-uuid');
+
 
 
 const Dashboard = () => {
 
+    const history = useHistory();
 
+
+
+    const {user, addUser} = useContext(UserContext)
 
     const createUser = () => {
+        addUser(short.generate());
+        history.push(`/photos-gallery`);
 
     }
 

@@ -16,6 +16,7 @@ import PhotoContextProvider from './contexts/PhotoContext';
 
 
 
+
 function App() {
   return (
     <div className="App ">
@@ -24,9 +25,11 @@ function App() {
         <Switch>
           <UserContextProvider>
             <PhotoContextProvider>
-              <Route path="/photos-gallery" component={PhotosGallery}></Route>
-              <Route path="/user-gallery" component={UserGallery}></Route>
-              <Route path="/" component={Dashboard} exact></Route>
+              
+                <Route path="/photos-gallery" component={PhotosGallery}></Route>
+                <Route path="/user-gallery" component={UserGallery}></Route>
+                <Route path="/" component={Dashboard} exact></Route>
+              
             </PhotoContextProvider>
           </UserContextProvider>
         </Switch>
