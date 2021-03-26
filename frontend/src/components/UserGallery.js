@@ -4,88 +4,80 @@ import { Container, Button } from 'react-bootstrap';
 import Gallery from "react-photo-gallery";
 import Photo from "../components/Photo";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import { setSelection, getUserPhotos } from '../api';
+import { useHistory } from "react-router-dom";
 
 const SortablePhoto = SortableElement(item => <Photo {...item} />);
 const SortableGallery = SortableContainer(({ items }) => (
-  <Gallery photos={items} renderImage={props => <SortablePhoto {...props} />} />
+    <Gallery photos={items} renderImage={props => <SortablePhoto {...props} />} />
 ));
 
 const photos = [
     {
-        "id": 204900001,
+        "id": "00000",
         "message": "",
-        "picture": "https://www.filepicker.io/api/file/c5XwmVekSQO2CIabnudN",
+        "picture": "https://dummyimage.com/200x200/000/fff",
         "pictureSmall": "",
         "pictureMedium": "",
         "pictureStored": "",
         "timestamp": 1578391381,
         'status': false
-    },
-    {
-        "id": 204900002,
-        "message": "",
-        "picture": "https://www.filepicker.io/api/file/oTUic0PTS4KiBJFbahbl",
-        "pictureSmall": "",
-        "pictureMedium": "",
-        "pictureStored": "",
-        "timestamp": 1578391381,
-        'status': false
-    },
-    {
-        "id": 204900003,
-        "message": "",
-        "picture": "https://www.filepicker.io/api/file/OqPljPIRimcdPI5DWxlv",
-        "pictureSmall": "",
-        "pictureMedium": "",
-        "pictureStored": "",
-        "timestamp": 1578391381,
-        'status': false
-    },
-    {
-        "id": 204900004,
-        "message": "",
-        "picture": "https://www.filepicker.io/api/file/OkleqwBQLCvFBAbByUxY",
-        "pictureSmall": "",
-        "pictureMedium": "",
-        "pictureStored": "",
-        "timestamp": 1578391381,
-        'status': false
-    },
-    {
-        "id": 204900005,
-        "message": "",
-        "picture": "https://www.filepicker.io/api/file/AbFrknBZRLGmJuUTWYr2",
-        "pictureSmall": "",
-        "pictureMedium": "",
-        "pictureStored": "",
-        "timestamp": 1578391381,
-        'status': true
     }
+
 ];
 
 
 const UserGallery = () => {
 
+    const history = useHistory();
+    const [ user, setUser  ] = useState({ 'user_id': localStorage.getItem('user_id')});
     const [items, setItems] = useState(photos);
+    const [galleryData, setGalleryData] = useState();
+    const [loading, setLoading] = useState(false);
+
+
+    useEffect(() => {
+
+        if (!user) {
+            history.push(`/`);
+        }
+
+        async function fetchData() {
+            const data = await getUserPhotos(user.user_id);
+            setItems(data.gallery);
+        }
+        fetchData();
+
+    }, []);
 
     const onSortEnd = ({ oldIndex, newIndex }) => {
-      setItems(array_move(items, oldIndex, newIndex));
-    };
 
-    const [galleryData, setGalleryData] = useState();
+        setLoading(true);
+        setItems(array_move(items, oldIndex, newIndex));
 
 
-    function array_move(arr, old_index, new_index) {
-        if (new_index >= arr.length) {
-            var k = new_index - arr.length + 1;
-            while (k--) {
-                arr.push(undefined);
-            }
+        const selectedImg = {
+            "user_id": user.user_id,
+            "gallery": items
         }
-        arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-        return arr; // for testing
+
+        async function setData(selectedImg) {
+            try {
+                await setSelection(selectedImg);
+
+            } catch (error) {
+                alert("Error , TODO:exception not handled ")
+            }
+
+            const timer = setTimeout(() => {
+                setLoading(false);
+            }, 2000);
+            return () => clearTimeout(timer);
+
+        }
+        setData(selectedImg);
+
     };
-    
 
 
     function array_move(arr, old_index, new_index) {
@@ -98,9 +90,10 @@ const UserGallery = () => {
         arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
         return arr; 
     };
-    
 
-
+    const home = () => {
+        history.push(`/`);
+    }
 
 
     return (<div>
@@ -108,13 +101,18 @@ const UserGallery = () => {
         <div className="fixed-top bg-dark mb-5 ">
             <Container>
                 <div className="d-flex mt-2 flex-row justify-content-between align-items-center py-2 px-2 mb-2">
-                    <div><p className="text-white h2">Photo Gallery <small className="h6">(Drag to reorder)</small></p></div>
-                    <Button className="btn btn-success btn-lg">Reset My gallery</Button>
+                    <div><p className="text-white h2">Photo Gallery <small className="h6">(Drag to reorder)</small></p>
+                        {user && <small className="text-white "> User ID : {user.user_id} </small>}</div>
+                        <Button onClick={() => home()} className="btn btn-success btn-lg"><strong> Home</strong></Button>
                 </div>
             </Container>
         </div>
+
         <Container className="mt-100">
-        <SortableGallery items={items} onSortEnd={onSortEnd} axis={"xy"} />
+            <div className="fix-height">
+                {loading && <div className="text-center "> <p className="text-white">Loading....</p></div>}
+            </div>
+            <SortableGallery items={items} onSortEnd={onSortEnd} axis={"xy"} />
         </Container>
 
     </div>);
