@@ -54,6 +54,7 @@ router.post("/api/v1/photos", async (req, res, next) => {
 
     if (!galleryData.user_id) {
       throw new PhotoError("Photo Uploder Error", "No user Id found");
+      
     }
     const photouploder = await photoPost(galleryData, next);
     res.status(200).send({

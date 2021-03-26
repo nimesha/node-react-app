@@ -1,10 +1,13 @@
 import express from "express";
+import cors from 'cors';
 const app = express();
 
 import bodyParser from "body-parser";
 import Mongoose from "mongoose";
 
 import { MONGO_URL } from "./config/index.js";
+
+app.use(cors())
 
 //middleware
 app.use(bodyParser.json());
