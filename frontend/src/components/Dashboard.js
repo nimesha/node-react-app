@@ -51,8 +51,7 @@ const Dashboard = () => {
 
             </div>
             <div className="container mt-100">
-                {!userPhotos && <small className="text-light">Once you created your photo gallery it will be listed in here...</small>}
-
+       
                 {userPhotos && <small className="text-light">User gallery  list</small>}
                 {userPhotos && <ul>
                     {userPhotos.map((item) => (
