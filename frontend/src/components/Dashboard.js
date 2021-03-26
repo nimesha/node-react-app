@@ -1,24 +1,46 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from "react-router-dom";
 import { Button } from 'react-bootstrap';
 import { UserContext } from '../contexts/UserContext';
+
+import { getUsersPhotos } from '../api';
+
 const short = require('short-uuid');
-
-
 
 const Dashboard = () => {
 
     const history = useHistory();
 
+    const { user, addUser } = useContext(UserContext)
 
-
-    const {user, addUser} = useContext(UserContext)
+    const [userPhotos, setUserPhotos] = useState()
 
     const createUser = () => {
-        addUser(short.generate());
+        const user_id = short.generate();
+        addUser(user_id);
+        window.localStorage.setItem("user_id", user_id);
         history.push(`/photos-gallery`);
 
     }
+
+    const setUser = (user_id) => {
+
+        window.localStorage.setItem("user_id", user_id);
+        history.push(`/user-gallery`);
+
+    }
+
+
+    useEffect(() => {
+        async function fetchData() {
+            const data = await getUsersPhotos();
+            setUserPhotos(data);
+        }
+        fetchData();
+
+    }, []);
+
+
 
     return (
         <>
@@ -29,9 +51,17 @@ const Dashboard = () => {
 
             </div>
             <div className="container mt-100">
-                <small className="text-light">Once you created photo gallery list in here</small>
+                {!userPhotos && <small className="text-light">Once you created your photo gallery it will be listed in here...</small>}
+
+                {userPhotos && <small className="text-light">User gallery  list</small>}
+                {userPhotos && <ul>
+                    {userPhotos.map((item) => (
+                        <div key={item._id} className="text-white mt-3"> User ID - {item.user_id} : <Button onClick={(() => setUser(item.user_id))} className="btn btn-success btn-sm"><strong> Vew Gallery</strong></Button> </div>
+                    ))
+                    }
+                </ul> }
             </div>
-            
+
         </>
     );
 }
