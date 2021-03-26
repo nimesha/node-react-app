@@ -4,20 +4,27 @@
 [Installation](#installation)
 
 
-[Initalizing](#initalizing)
-
 
 [ApiDOC](#API Doc)
 
 ## Installation
+#Backend API Express
 
-> install npm and bower packages
 
+> cd backend
+
+Run
+
+\$ npm install  
+
+\$ npm run dev
+
+#Front-end React app
+
+> cd frontend
 \$ npm install
 
-## Initalizing
-
-> run dev for start the app
+\$ npm start
 
 \$ npm run dev
 
