@@ -11,6 +11,7 @@ services:
       - "8888:8888"
     volumes:
       - ./backend:/usr/src/backendapp
+      - /usr/src/backendapp/node_modules/
     depends_on:
       - mongodb
   frontend:
