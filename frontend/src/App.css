@@ -95,3 +95,7 @@ input[type="checkbox"]:checked:after {
 input[type="checkbox"]:focus::before {
   outline: #28A745 auto 10px;
 }
+
+.react-photo-gallery--gallery img{
+  width: 180px  !important;
+}

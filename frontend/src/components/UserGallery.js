@@ -1,137 +1,107 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Container, Button } from 'react-bootstrap';
+
+import Gallery from "react-photo-gallery";
+import Photo from "../components/Photo";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+
+const SortablePhoto = SortableElement(item => <Photo {...item} />);
+const SortableGallery = SortableContainer(({ items }) => (
+  <Gallery photos={items} renderImage={props => <SortablePhoto {...props} />} />
+));
+
+const photos = [
+    {
+        "id": 204900001,
+        "message": "",
+        "picture": "https://www.filepicker.io/api/file/c5XwmVekSQO2CIabnudN",
+        "pictureSmall": "",
+        "pictureMedium": "",
+        "pictureStored": "",
+        "timestamp": 1578391381,
+        'status': false
+    },
+    {
+        "id": 204900002,
+        "message": "",
+        "picture": "https://www.filepicker.io/api/file/oTUic0PTS4KiBJFbahbl",
+        "pictureSmall": "",
+        "pictureMedium": "",
+        "pictureStored": "",
+        "timestamp": 1578391381,
+        'status': false
+    },
+    {
+        "id": 204900003,
+        "message": "",
+        "picture": "https://www.filepicker.io/api/file/OqPljPIRimcdPI5DWxlv",
+        "pictureSmall": "",
+        "pictureMedium": "",
+        "pictureStored": "",
+        "timestamp": 1578391381,
+        'status': false
+    },
+    {
+        "id": 204900004,
+        "message": "",
+        "picture": "https://www.filepicker.io/api/file/OkleqwBQLCvFBAbByUxY",
+        "pictureSmall": "",
+        "pictureMedium": "",
+        "pictureStored": "",
+        "timestamp": 1578391381,
+        'status': false
+    },
+    {
+        "id": 204900005,
+        "message": "",
+        "picture": "https://www.filepicker.io/api/file/AbFrknBZRLGmJuUTWYr2",
+        "pictureSmall": "",
+        "pictureMedium": "",
+        "pictureStored": "",
+        "timestamp": 1578391381,
+        'status': true
+    }
+];
 
 
 const UserGallery = () => {
-    const [names, setNames] = useState([
-        {
-            "id": 204900001,
-            "message": "",
-            "picture": "https://www.filepicker.io/api/file/c5XwmVekSQO2CIabnudN",
-            "pictureSmall": "",
-            "pictureMedium": "",
-            "pictureStored": "",
-            "timestamp": 1578391381,
-            'status': false
-        },
-        {
-            "id": 204900002,
-            "message": "",
-            "picture": "https://www.filepicker.io/api/file/oTUic0PTS4KiBJFbahbl",
-            "pictureSmall": "",
-            "pictureMedium": "",
-            "pictureStored": "",
-            "timestamp": 1578391381,
-            'status': false
-        },
-        {
-            "id": 204900003,
-            "message": "",
-            "picture": "https://www.filepicker.io/api/file/OqPljPIRimcdPI5DWxlv",
-            "pictureSmall": "",
-            "pictureMedium": "",
-            "pictureStored": "",
-            "timestamp": 1578391381,
-            'status': false
-        },
-        {
-            "id": 204900004,
-            "message": "",
-            "picture": "https://www.filepicker.io/api/file/OkleqwBQLCvFBAbByUxY",
-            "pictureSmall": "",
-            "pictureMedium": "",
-            "pictureStored": "",
-            "timestamp": 1578391381,
-            'status': false
-        },
-        {
-            "id": 204900005,
-            "message": "",
-            "picture": "https://www.filepicker.io/api/file/AbFrknBZRLGmJuUTWYr2",
-            "pictureSmall": "",
-            "pictureMedium": "",
-            "pictureStored": "",
-            "timestamp": 1578391381,
-            'status': true
-        },
-        {
-            "id": 20490000134,
-            "message": "",
-            "picture": "https://www.filepicker.io/api/file/c5XwmVekSQO2CIabnudN",
-            "pictureSmall": "",
-            "pictureMedium": "",
-            "pictureStored": "",
-            "timestamp": 1578391381,
-            'status': false
-        },
-        {
-            "id": 2049000029,
-            "message": "",
-            "picture": "https://www.filepicker.io/api/file/oTUic0PTS4KiBJFbahbl",
-            "pictureSmall": "",
-            "pictureMedium": "",
-            "pictureStored": "",
-            "timestamp": 1578391381,
-            'status': false
-        },
-        {
-            "id": 2049000031,
-            "message": "",
-            "picture": "https://www.filepicker.io/api/file/OqPljPIRimcdPI5DWxlv",
-            "pictureSmall": "",
-            "pictureMedium": "",
-            "pictureStored": "",
-            "timestamp": 1578391381,
-            'status': false
-        },
-        {
-            "id": 2049000042,
-            "message": "",
-            "picture": "https://www.filepicker.io/api/file/OkleqwBQLCvFBAbByUxY",
-            "pictureSmall": "",
-            "pictureMedium": "",
-            "pictureStored": "",
-            "timestamp": 1578391381,
-            'status': false
-        },
-        {
-            "id": 2049000054,
-            "message": "",
-            "picture": "https://www.filepicker.io/api/file/AbFrknBZRLGmJuUTWYr2",
-            "pictureSmall": "",
-            "pictureMedium": "",
-            "pictureStored": "",
-            "timestamp": 1578391381,
-            'status': true
-        },
 
-    ]);
+    const [items, setItems] = useState(photos);
 
-    const onDragEnd = (result) => {
-        if (!result.destination) {
-            return;
-        }
-
-        if (result.destination.index === result.source.index) {
-            return;
-        }
-
-        const items = reorder(
-            names,
-            result.source.index,
-            result.destination.index
-        );
-
-        setNames(items);
-    }
-    const reorder = (list, startIndex, endIndex) => {
-        const result = Array.from(list);
-        const [removed] = result.splice(startIndex, 1);
-        result.splice(endIndex, 0, removed);
-
-        return result;
+    const onSortEnd = ({ oldIndex, newIndex }) => {
+      setItems(array_move(items, oldIndex, newIndex));
     };
+
+    const [galleryData, setGalleryData] = useState();
+
+
+    function array_move(arr, old_index, new_index) {
+        if (new_index >= arr.length) {
+            var k = new_index - arr.length + 1;
+            while (k--) {
+                arr.push(undefined);
+            }
+        }
+        arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+        return arr; // for testing
+    };
+    
+
+
+    function array_move(arr, old_index, new_index) {
+        if (new_index >= arr.length) {
+            var k = new_index - arr.length + 1;
+            while (k--) {
+                arr.push(undefined);
+            }
+        }
+        arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+        return arr; 
+    };
+    
+
+
+
 
     return (<div>
 
@@ -144,27 +114,9 @@ const UserGallery = () => {
             </Container>
         </div>
         <Container className="mt-100">
-        <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="item">
-                {(provided) => (
-                    <div ref={provided.innerRef} {...provided.droppableProps}>
-                        {names.map((field, index) => (
-                            <Draggable key={field.id} draggableId={field.id.toString()} index={index}>
-                                {provided => (
-                                    <div ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps} >
-                                        <img src={field.picture} loading="lazy" alt={field.id} width="150" />
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        { provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
-        </DragDropContext>
+        <SortableGallery items={items} onSortEnd={onSortEnd} axis={"xy"} />
         </Container>
+
     </div>);
 }
 
