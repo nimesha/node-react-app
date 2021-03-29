@@ -8,7 +8,7 @@ const PhotosGallery = () => {
 
     const history = useHistory();
     const { user } = useContext(UserContext);
-    const [isChecked, setIsChecked] = useState();
+    const [isChecked, setIsChecked] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const [galleryData, setGalleryData] = useState({
@@ -53,9 +53,21 @@ const PhotosGallery = () => {
         setLoading(false)
     }, [])
 
+    useEffect(() => {
+
+        const itemList = Object.keys(isChecked).filter(key => isChecked[key] === true)
+
+        if(itemList.length >= 9) {
+            alert(itemList.length + " photos Selected");
+        }
+  
+    }, [isChecked])
+
+
 
     const handleSingleCheck = e => {
         setIsChecked({ ...isChecked, [e.target.name]: e.target.checked });
+       
     };
 
     /**
