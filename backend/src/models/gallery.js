@@ -16,6 +16,9 @@ const gallerySchema = new mongoose.Schema({
       picture: {
         type: String,
       },
+      img_id: {
+        type: String,
+      },
       pictureSmall: {
         type: String,
       },

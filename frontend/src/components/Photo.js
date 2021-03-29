@@ -20,7 +20,7 @@ const Photo = ({ index, onClick, photo, margin, direction, top, left }) => {
       {...photo}
       onClick={onClick ? handleClick : null}
       alt="img"
-      src={photo.picture}
+      src={'https://cdn.filestackcontent.com/resize=w:300/auto_image/compress/'+photo.img_id}
     />
   );
 };

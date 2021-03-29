@@ -28,6 +28,15 @@ export const photoApi = async () => {
 
     try {
         const res = await axios.get(`https://dev-pb-apps.s3-eu-west-1.amazonaws.com/collection/CHhASmTpKjaHyAsSaauThRqMMjWanYkQ.json `);
+        /** image quality */
+
+   
+
+        res.data.entries.map((item, index) => (    
+
+            res.data.entries[index]['img_id'] = item.picture.substr(item.picture.lastIndexOf('/') + 1)
+
+        ))        
         return res.data;
     } catch (error) {
         throw new PBError(error.response);
