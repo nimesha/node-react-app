@@ -11,7 +11,7 @@ const Dashboard = () => {
 
     const history = useHistory();
 
-    const { addUser } = useContext(UserContext)
+    const { user,  addUser } = useContext(UserContext)
 
     const [userPhotos, setUserPhotos] = useState()
 
