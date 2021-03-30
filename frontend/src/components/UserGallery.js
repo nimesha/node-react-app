@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
 
 import Gallery from "react-photo-gallery";

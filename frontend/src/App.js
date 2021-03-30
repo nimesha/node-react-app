@@ -1,11 +1,10 @@
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Button } from 'react-bootstrap';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import Dashboard from './components/Dashboard';
 import PhotosGallery from './components/PhotoGallery';

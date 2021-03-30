@@ -7,7 +7,7 @@ const PhotoContextProvider = (props) => {
 
 
     return (
-        <PhotoContext.Provider value={{ photos  }}>
+        <PhotoContext.Provider value={{ photos, setPhotos }}>
             {props.children}
         </PhotoContext.Provider>
     );
