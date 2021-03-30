@@ -12,7 +12,7 @@ test("User gallery list Wthout user", () => {
     expect(screen.getByText("User gallery list will be show in here..")).toBeInTheDocument();
   });
   
-  test("User gallery list user", () => {
+  test("UserGreeter salutes a user", () => {
     const user =  {'user_id': 'nimesh'};
     render(
       <UserContextProvider value={user}>
