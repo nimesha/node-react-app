@@ -4,8 +4,11 @@
 [Installation](#installation)
 
 
-
 [ApiDOC](#API Doc)
+
+[Testing](#Front-end-testing)
+
+
 
 ## Installation
 #Backend API Express
@@ -245,3 +248,13 @@ id=[String]
 
 
 ---
+
+
+
+## Front-end-testing
+
+> cd frontend
+
+\$ npm run test
+
+Launches the test runner in the interactive watch mode.\
