@@ -9,8 +9,11 @@ import { useHistory } from "react-router-dom";
 import { UserContext } from '../contexts/UserContext';
 
 const SortablePhoto = SortableElement(item => <Photo {...item} />);
+
 const SortableGallery = SortableContainer(({ items }) => (
-    <Gallery photos={items} renderImage={props => <SortablePhoto {...props} />} />
+    
+     <Gallery photos={items}  renderImage={props => <SortablePhoto {...props} />}
+    />
 ));
 
 const photos = [
@@ -22,7 +25,12 @@ const photos = [
         "pictureMedium": "",
         "pictureStored": "",
         "timestamp": 1578391381,
-        'status': false
+        'status': false,
+        'src': 'https://dummyimage.com/200x200/000/fff',
+        'width' : 0,
+        'height': 0
+
+
     }
 
 ];
@@ -32,11 +40,13 @@ const UserGallery = () => {
 
     const history = useHistory();
     const { user } = useContext(UserContext)
-    const [items, setItems] = useState(photos);
+    const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
+
+        let isCancelled = false;
 
         if (!user) {
             history.push(`/`);
@@ -44,10 +54,20 @@ const UserGallery = () => {
 
         async function fetchData() {
             const data = await getUserPhotos(user.user_id);
+
+            data.gallery.forEach((item, index) => {
+  
+                data.gallery[index]['src'] = item.picture.substr(item.picture.lastIndexOf('/') + 1)
+                data.gallery[index]['width'] = 0;
+                data.gallery[index]['height'] = 0
+            })
             setItems(data.gallery);
         }
         fetchData();
 
+        return () => {
+            isCancelled = true;
+        };
 
     }, []);
 
@@ -113,7 +133,7 @@ const UserGallery = () => {
             <div className="fix-height">
                 {loading && <div className="text-center "> <p className="text-white">Loading....</p></div>}
             </div>
-            <SortableGallery items={items} onSortEnd={onSortEnd} axis={"xy"} />
+             <SortableGallery items={items} onSortEnd={onSortEnd} axis={"xy"} />
         </Container>
 
     </div>);
