@@ -51,6 +51,7 @@ const PhotosGallery = () => {
         }, {})
         setIsChecked(initialIsChecked)
         setLoading(false)
+        
     }, [])
 
     useEffect(() => {
@@ -123,6 +124,7 @@ const PhotosGallery = () => {
                 </div>
                 <div className="d-flex flex-wrap main-container ">
                     {!loading ? galleryData.entries.map((item, index) => (
+                      item.img_id &&
                         <div key={item.id} className="m-2 img-wrap" style={{ flexGrow: 1, height: "40vh" }}>
                             <img src={'https://cdn.filestackcontent.com/resize=w:300/auto_image/compress/'+item.img_id} loading="lazy" alt={item.id} className="single-image" width="auto" height="auto" style={{ maxHeight: "100%", minWidth: "100%", objectFit: "cover" }} />
                             <input
@@ -130,7 +132,7 @@ const PhotosGallery = () => {
                                 className="image-checkbox"
                                 type="checkbox"
                                 name={item.id}
-                                checked={isChecked[item.id]}
+                                checked={isChecked[item.id] || false}
                                 onChange={handleSingleCheck}
                             />
                         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Button } from 'react-bootstrap';
 
 import Gallery from "react-photo-gallery";
@@ -6,6 +6,7 @@ import Photo from "../components/Photo";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { setSelection, getUserPhotos } from '../api';
 import { useHistory } from "react-router-dom";
+import { UserContext } from '../contexts/UserContext';
 
 const SortablePhoto = SortableElement(item => <Photo {...item} />);
 const SortableGallery = SortableContainer(({ items }) => (
@@ -30,9 +31,8 @@ const photos = [
 const UserGallery = () => {
 
     const history = useHistory();
-    const [ user, setUser  ] = useState({ 'user_id': localStorage.getItem('user_id')});
+    const { user } = useContext(UserContext)
     const [items, setItems] = useState(photos);
-    const [galleryData, setGalleryData] = useState();
     const [loading, setLoading] = useState(false);
 
 
@@ -47,6 +47,7 @@ const UserGallery = () => {
             setItems(data.gallery);
         }
         fetchData();
+
 
     }, []);
 
@@ -88,7 +89,7 @@ const UserGallery = () => {
             }
         }
         arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-        return arr; 
+        return arr;
     };
 
     const home = () => {
@@ -103,7 +104,7 @@ const UserGallery = () => {
                 <div className="d-flex mt-2 flex-row justify-content-between align-items-center py-2 px-2 mb-2">
                     <div><p className="text-white h2">Photo Gallery <small className="h6">(Drag to reorder)</small></p>
                         {user && <small className="text-white "> User ID : {user.user_id} </small>}</div>
-                        <Button onClick={() => home()} className="btn btn-success btn-lg"><strong> Home</strong></Button>
+                    <Button onClick={() => home()} className="btn btn-success btn-lg"><strong> Home</strong></Button>
                 </div>
             </Container>
         </div>
